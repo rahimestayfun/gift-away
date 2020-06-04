@@ -1,18 +1,17 @@
-import React from 'react';
-import Categories from '../components/Categories';
-import { connect } from 'react-redux';
-import Footer from './Footer';
-import { MdSearch } from 'react-icons/md';
-import { Link, Redirect } from 'react-router-dom';
+import React from "react";
+import Categories from "../components/Categories";
+import { connect } from "react-redux";
+import Footer from "./Footer";
+import { MdSearch } from "react-icons/md";
+import { Redirect } from "react-router-dom";
 import {
   getDonations,
   getDonationsdetail,
-} from '../redux/reducers/donationReducer';
-import loading_gif from '../asset/ajax-loader.gif';
-import Layout from './Chat/Layout';
+} from "../redux/reducers/donationReducer";
+import loading_gif from "../asset/ajax-loader.gif";
 
 class Home extends React.Component {
-  state = { search: '', user_id: 0 };
+  state = { search: "", user_id: 0 };
   componentDidMount() {
     let id =
       this.props.user.length !== 0
@@ -27,7 +26,7 @@ class Home extends React.Component {
   render() {
     // console.log(this.props)
     if (this.props.details.length > 0) {
-      return <Redirect to='/donation-details' />;
+      return <Redirect to="/donation-details" />;
     }
     // console.log(this.props.locations)
     const { search } = this.state;
@@ -36,10 +35,10 @@ class Home extends React.Component {
         <div
           data-test-id="donations"
           key={el.donation_title + i}
-          className='donation-card'
+          className="donation-card"
           onClick={() => this.props.getDonationsdetail(el.donation_id)}
         >
-          <img src={el.donation_photo} alt='donation' />
+          <img src={el.donation_photo} alt="donation" />
           <p>{el.donation_title}</p>
           <p>{el.post_location}</p>
         </div>
@@ -53,11 +52,11 @@ class Home extends React.Component {
         return (
           <div
             key={el.donation_title + i}
-            className='donation-card'
-            style={{ border: '1px solid black' }}
+            className="donation-card"
+            style={{ border: "1px solid black" }}
             onClick={() => this.props.getDonationsdetail(el.donation_id)}
           >
-            <img src={el.donation_photo} alt='donation' />
+            <img src={el.donation_photo} alt="donation" />
             <div>
               <p>{el.donation_title}</p>
               <p>{el.post_location}</p>
@@ -67,29 +66,30 @@ class Home extends React.Component {
       });
     return (
       <div>
-        <div className='search-container'>
-          <div className='search'>
-            <MdSearch size='25px' />
+        <div className="search-container">
+          <div className="search">
+            <MdSearch size="25px" />
             <input
-              placeholder='Search GiftAway'
+              placeholder="Search GiftAway"
               type="text"
-              id='input'
-              name='search'
+              id="input"
+              name="search"
               onChange={this.handleChange}
             />
           </div>
         </div>
-        <div className='donation-category-container'>
+        <div className="donation-category-container">
           <Categories />
 
-          <div className='donation-container'>
+          <div className="donation-container">
             {this.props.loading ? (
               <img
                 src={loading_gif}
-                style={{ marginTop: '150px', width: '200px' }}
+                style={{ marginTop: "150px", width: "200px" }}
+                alt="donation"
               />
             ) : (
-              <div className='donation-card-container'>
+              <div className="donation-card-container">
                 {!search
                   ? mappedDonation
                   : filteredDonation && filteredDonation.length === 0
@@ -100,7 +100,6 @@ class Home extends React.Component {
           </div>
         </div>
         <Footer />
-        {/* <Layout /> */}
       </div>
     );
   }

@@ -1,29 +1,29 @@
-require('dotenv').config();
+require("dotenv").config();
 let { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env;
 
-const express = require('express');
+const express = require("express");
 const app = express();
-const massive = require('massive');
-const session = require('express-session');
-const authCtrl = require('./controllers/authCtrl');
-const donationCtrl = require('./controllers/donationCtrl');
+const massive = require("massive");
+const session = require("express-session");
+const authCtrl = require("./controllers/authCtrl");
+const donationCtrl = require("./controllers/donationCtrl");
 
 //SOCKET.IO
-var io = (module.exports.io = require('socket.io')(
-  app.listen(SERVER_PORT, () => console.log('Party on, Wayne! CHAT is ON!!!'))
-));
-const SocketManager = require('./SocketManager');
-// const io = require('socket.io')(
-// app.listen(SERVER_PORT, () => console.log('Party on, Wayne! CHAT is ON!!!'))
-// );
-io.on('connection', SocketManager);
+// var io = (module.exports.io = require('socket.io')(
+//   app.listen(SERVER_PORT, () => console.log('Party on, Wayne! CHAT is ON!!!'))
+// ));
+// const SocketManager = require('./SocketManager');
+// // const io = require('socket.io')(
+// // app.listen(SERVER_PORT, () => console.log('Party on, Wayne! CHAT is ON!!!'))
+// // );
+// io.on('connection', SocketManager);
 
 app.use(express.json());
 
 massive(CONNECTION_STRING)
   .then((db) => {
-    console.log('Excellent');
-    app.set('db', db);
+    console.log("Excellent");
+    app.set("db", db);
   })
   .catch((err) => console.error(err));
 
@@ -40,12 +40,12 @@ app.use(
 
 // Auth
 let { registerUser, login, logout, editUser, getUser, editPassword } = authCtrl;
-app.post('/auth/register', registerUser);
-app.post('/auth/login', login);
-app.get('/auth/logout', logout);
-app.put('/auth/editUser', editUser);
-app.get('/auth/getUser', getUser);
-app.put('/auth/editPassword', editPassword);
+app.post("/auth/register", registerUser);
+app.post("/auth/login", login);
+app.get("/auth/logout", logout);
+app.put("/auth/editUser", editUser);
+app.get("/auth/getUser", getUser);
+app.put("/auth/editPassword", editPassword);
 
 //Donation Controller
 const {
@@ -63,17 +63,19 @@ const {
   getUserDonations,
 } = donationCtrl;
 
-app.get('/api/donations/category', getDonationByCategory);
-app.get('/api/donations/:id', getDonations);
-app.get('/api/donations/filter', getFilteredDonations);
+app.get("/api/donations/category", getDonationByCategory);
+app.get("/api/donations/:id", getDonations);
+app.get("/api/donations/filter", getFilteredDonations);
 
-app.get('/api/donation/:id', getDonationInfo);
-app.post('/api/donation', postDonation);
-app.get('/api/donation/:id/photos', getDonationPhotos);
-app.put('/api/viewCount/:id', updateViewCount);
-app.delete('/api/donation/:id', deleteDonation);
-app.get('/api/donations/favorites/:id', getUserFavorites);
-app.get('/api/donations/users/:id', getUserDonations);
+app.get("/api/donation/:id", getDonationInfo);
+app.post("/api/donation", postDonation);
+app.get("/api/donation/:id/photos", getDonationPhotos);
+app.put("/api/viewCount/:id", updateViewCount);
+app.delete("/api/donation/:id", deleteDonation);
+app.get("/api/donations/favorites/:id", getUserFavorites);
+app.get("/api/donations/users/:id", getUserDonations);
 
-app.post('/api/postPhoto',postDonationPhoto)
-app.post('/api/favourites', postFavourite);
+app.post("/api/postPhoto", postDonationPhoto);
+app.post("/api/favourites", postFavourite);
+
+app.listen(SERVER_PORT, () => console.log("Server is on"));
